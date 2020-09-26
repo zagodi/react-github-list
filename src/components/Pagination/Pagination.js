@@ -11,7 +11,7 @@ const Pagination = ({ total, perpage, onClick }) => {
     const buttons = []
     for (let i = 0; i < pagesNum; i++) {
       const num = i +1
-      buttons.push(<button onClick={() => onClick(i)}>{num}</button>)
+      buttons.push(<button key={i} onClick={() => onClick(i)}>{num}</button>)
     }
 
     return buttons

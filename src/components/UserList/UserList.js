@@ -16,7 +16,7 @@ const UserList = () => {
   const perPage = 10
 
   useEffect(() => {
-    Axios.get('https://api.github.com/users/page=1&per_page=10')
+    Axios.get('https://api.github.com/users')
       .then((res) => {
         setUsers(res.data)
         localStorage.setItem('users', JSON.stringify(res.data))
@@ -76,11 +76,13 @@ const UserList = () => {
     if (searchResults) {
       allItens = searchResults
       paginated = paginate(searchResults)
+      return ({ allItens, paginated })
     }
 
     if (showDeleted) {
       allItens = getDeletedUsers()
       paginated = paginate(allItens)
+      return ({ allItens, paginated })
     }
     
     return ({ allItens, paginated })
