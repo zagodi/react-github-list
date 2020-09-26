@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 
+import './SearchUser.scss'
+
 const SearchUser = ({ onSearch }) => {
   const [value, setValue] = useState()
 
@@ -12,7 +14,7 @@ const SearchUser = ({ onSearch }) => {
   }
 
   return (
-    <div>
+    <div className="search-container">
       <input 
         type="text" 
         onChange={(e) => setValue(e.target.value)} 

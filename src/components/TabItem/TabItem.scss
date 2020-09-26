@@ -1,5 +1,17 @@
 .tab-item-container {
-  border: 1px solid blue;
+  border-right: 1px solid #222;
+  border-left: 1px solid #222;
+  border-top: 1px solid #222;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
   padding: 5px;
   width: 80px;
+
+  span {
+    color: #222;
+  }
+
+  &.selected {
+    background: aqua;
+  }
 }

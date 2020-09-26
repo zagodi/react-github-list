@@ -4,28 +4,24 @@ import Axios from 'axios'
 import UserItem from './UserItem/UserItem'
 import SearchUser from './SearchUser/SearchUser'
 import TabItem from '../TabItem/TabItem'
-
-import './UserList.scss'
 import Pagination from '../Pagination/Pagination'
 
-const localUsers = JSON.parse(localStorage.getItem('users'))
+import './UserList.scss'
 
 const UserList = () => {
-  const [users, setUsers] = useState(localUsers)
+  const [users, setUsers] = useState([])
   const [showDeleted, setShowDeleted] = useState(false)
   const [searchResults, setSearchResults] = useState()
   const [page, setPage] = useState(0)
   const perPage = 10
 
   useEffect(() => {
-    // Axios.get('https://api.github.com/users/page=1&per_page=10')
-    //   .then((res) => {
-    //     setUsers(res.data)
-    //     localStorage.setItem('users', JSON.stringify(res.data))
-    //   }).catch(console.log)
+    Axios.get('https://api.github.com/users/page=1&per_page=10')
+      .then((res) => {
+        setUsers(res.data)
+        localStorage.setItem('users', JSON.stringify(res.data))
+      }).catch(console.log)
   }, [])
-
-  console.log(users)
 
   function toggleTab(type) {
     setSearchResults(null)
@@ -94,8 +90,8 @@ const UserList = () => {
     <div className="user-list-container">
       <div className="list-header">
         <SearchUser onSearch={handleSearch} />
-        <TabItem onClick={toggleTab} text="Todos" />
-        <TabItem onClick={toggleTab} text="Excluídos" />
+        <TabItem onClick={toggleTab} text="Todos" selected={!showDeleted} />
+        <TabItem onClick={toggleTab} text="Excluídos" selected={showDeleted} />
       </div>
 
       {

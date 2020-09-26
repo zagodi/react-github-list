@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import React from 'react'
 
-// import './Pagination.scss'
+import './Pagination.scss'
 
 const Pagination = ({ total, perpage, onClick }) => {
   const pagesNum = Math.ceil(total / perpage)
@@ -18,7 +18,7 @@ const Pagination = ({ total, perpage, onClick }) => {
   }
 
   return (
-    <div className="tab-item-container">
+    <div className="pagination-container">
       {renderButtons()}
     </div>
   )
