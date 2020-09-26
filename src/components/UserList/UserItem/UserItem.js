@@ -10,7 +10,8 @@ const UserItem = ({
   nodeID,
   avatar_url,
   html_url,
-  onDelete,
+  onChangeStatus,
+  deleted
 }) => {
   // const { 
   //   id,
@@ -56,7 +57,14 @@ const UserItem = ({
       </div>
 
       <div>
-        <button onClick={() => onDelete(userID)}>Excluir</button>
+        <button 
+          onClick={() => onChangeStatus(
+            userID, 
+            deleted ? false : true
+          )}
+        >
+          {deleted ? "Recuperar" : "Excluir"}
+        </button>
         <a href={html_url} target="_blank">Ver Perfil</a>
       </div>
     </div>

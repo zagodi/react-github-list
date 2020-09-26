@@ -61,10 +61,10 @@ const UserList = () => {
     // setDataSource(result)
   }
 
-  const handleDeleteUser = (userID) => {
+  const handleUserStatus = (userID, isDeleting) => {
     const result = users.map((user) => {
       if (user.id === userID) {
-        return ({ ...user, deleted: true })
+        return ({ ...user, deleted: isDeleting })
       }
       return user
     })
@@ -94,7 +94,8 @@ const UserList = () => {
             avatar_url={user.avatar_url}
             html_url={user.html_url}
             login={user.login}
-            onDelete={handleDeleteUser}
+            onChangeStatus={handleUserStatus}
+            deleted={user.deleted}
             // user={user} 
           />
         ))
