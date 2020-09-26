@@ -7,30 +7,18 @@ import TabItem from '../TabItem/TabItem'
 
 import './UserList.scss'
 
-const localUsers = JSON.parse(localStorage.getItem('users'))
-
 const UserList = () => {
-  const [users, setUsers] = useState(localUsers) // Economizando requisições
+  const [users, setUsers] = useState([]) // Economizando requisições
   const [showDeleted, setShowDeleted] = useState(false)
   const [searchResults, setSearchResults] = useState()
 
   useEffect(() => {
-    // Axios.get('https://api.github.com/users')
-    //   .then((res) => {
-    //     setUsers(res.data)
-    //     localStorage.setItem('users', JSON.stringify(res.data))
-    //   }).catch(console.log)
-
-      // Axios.get('https://api.github.com/users/mojombo')
-      // .then((res) => {
-      //   setUsers(res.data)
-      //   setDataSource(res.data)
-      //   localStorage.setItem('user', JSON.stringify(res.data))
-      // }).catch(console.log)
-
+    Axios.get('https://api.github.com/users')
+      .then((res) => {
+        setUsers(res.data)
+      }).catch(console.log)
   }, [])
 
-  console.log(users)
 
   function toggleTab(type) {
     type === 'Todos' ? setShowDeleted(false) : setShowDeleted(true)
@@ -100,7 +88,6 @@ const UserList = () => {
             login={user.login}
             onChangeStatus={handleUserStatus}
             deleted={user.deleted}
-            // user={user} 
           />
         ))
       }
