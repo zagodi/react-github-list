@@ -1,0 +1,48 @@
+.user-container {
+  border: 1px solid black;
+  display: flex;
+  padding: 10px;
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  img {
+    width: 80px;
+    border: 1px solid black;
+    border-radius: 3rem;
+  }
+
+  .infos-section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0 10px;
+    // border: 1px solid red;
+
+    & > div {
+      display: flex;
+      margin: 5px 0;
+      // border: 1px solid black;
+    }
+
+    span {
+      margin-right: 10px;
+    }
+  }
+
+  button {
+    float: right;
+    margin-bottom: 10px;
+  }
+
+  span {
+    font-size: 14px;
+  }
+
+  .title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+}
