@@ -6,21 +6,29 @@ import SearchUser from './SearchUser/SearchUser'
 import TabItem from '../TabItem/TabItem'
 
 import './UserList.scss'
+import Pagination from '../Pagination/Pagination'
+
+const localUsers = JSON.parse(localStorage.getItem('users'))
 
 const UserList = () => {
-  const [users, setUsers] = useState([]) // Economizando requisições
+  const [users, setUsers] = useState(localUsers)
   const [showDeleted, setShowDeleted] = useState(false)
   const [searchResults, setSearchResults] = useState()
+  const [page, setPage] = useState(0)
+  const perPage = 10
 
   useEffect(() => {
-    Axios.get('https://api.github.com/users')
-      .then((res) => {
-        setUsers(res.data)
-      }).catch(console.log)
+    // Axios.get('https://api.github.com/users/page=1&per_page=10')
+    //   .then((res) => {
+    //     setUsers(res.data)
+    //     localStorage.setItem('users', JSON.stringify(res.data))
+    //   }).catch(console.log)
   }, [])
 
+  console.log(users)
 
   function toggleTab(type) {
+    setSearchResults(null)
     type === 'Todos' ? setShowDeleted(false) : setShowDeleted(true)
   }
 
@@ -59,15 +67,27 @@ const UserList = () => {
     setUsers(result)
   }
 
+  const paginate = (data) => {
+    const skip = page * perPage
+    const take = skip + perPage
+    return data.slice(skip, take)
+  }
+
   const getList = () => {
+    let allItens = getActiveUsers()
+    let paginated = paginate(allItens)
+    
     if (searchResults) {
-      return searchResults
+      allItens = searchResults
+      paginated = paginate(searchResults)
     }
 
     if (showDeleted) {
-      return getDeletedUsers()
+      allItens = getDeletedUsers()
+      paginated = paginate(allItens)
     }
-    return getActiveUsers()
+    
+    return ({ allItens, paginated })
   }
 
   return (
@@ -77,8 +97,9 @@ const UserList = () => {
         <TabItem onClick={toggleTab} text="Todos" />
         <TabItem onClick={toggleTab} text="Excluídos" />
       </div>
+
       {
-        getList().map((user) => (
+        getList().paginated.map((user) => (
           <UserItem 
             key={user.id} 
             userID={user.id}
@@ -91,6 +112,12 @@ const UserList = () => {
           />
         ))
       }
+
+      <Pagination  
+        total={getList().allItens.length}
+        perpage={perPage}
+        onClick={(num) => setPage(num)}
+      />
     </ div>
   )
 }
