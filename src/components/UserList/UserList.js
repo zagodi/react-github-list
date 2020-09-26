@@ -2,21 +2,17 @@ import React, { useState, useEffect } from 'react'
 import Axios from 'axios'
 
 import UserItem from './UserItem/UserItem'
-
-import './UserList.scss'
 import SearchUser from './SearchUser/SearchUser'
 import TabItem from '../TabItem/TabItem'
 
-const localUsers = JSON.parse(localStorage.getItem('users'))
+import './UserList.scss'
 
+const localUsers = JSON.parse(localStorage.getItem('users'))
 
 const UserList = () => {
   const [users, setUsers] = useState(localUsers) // Economizando requisições
   const [showDeleted, setShowDeleted] = useState(false)
-
-  // useEffect(() => {
-  //   setUsers(localUsers)
-  // }, [])
+  const [searchResults, setSearchResults] = useState()
 
   useEffect(() => {
     // Axios.get('https://api.github.com/users')
@@ -40,9 +36,13 @@ const UserList = () => {
     type === 'Todos' ? setShowDeleted(false) : setShowDeleted(true)
   }
 
+  const getDeletedUsers = () => users.filter((user) => user.deleted === true) || []
+  const getActiveUsers = () => users.filter((user) => user.deleted !== true)
+
   const handleSearch = (value) => {
     const result = []
-    users.forEach((user) => {
+    const source = showDeleted ? getDeletedUsers() : getActiveUsers()
+    source.forEach((user) => {
       const userID = parseFloat(user.id)
       const login = user.login.toString().toLowerCase()
 
@@ -58,7 +58,7 @@ const UserList = () => {
       }
     })
 
-    // setDataSource(result)
+    setSearchResults(result)
   }
 
   const handleUserStatus = (userID, isDeleting) => {
@@ -72,10 +72,14 @@ const UserList = () => {
   }
 
   const getList = () => {
-    if (showDeleted) {
-      return users.filter((user) => user.deleted === true) || []
+    if (searchResults) {
+      return searchResults
     }
-    return users.filter((user) => user.deleted !== true)
+
+    if (showDeleted) {
+      return getDeletedUsers()
+    }
+    return getActiveUsers()
   }
 
   return (

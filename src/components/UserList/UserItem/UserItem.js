@@ -1,6 +1,4 @@
-/* eslint-disable react/jsx-no-target-blank */
-import React, { useEffect, useState } from 'react'
-import Axios from 'axios'
+import React, { useState } from 'react'
 
 import './UserItem.scss'
 
@@ -13,26 +11,8 @@ const UserItem = ({
   onChangeStatus,
   deleted
 }) => {
-  // const { 
-  //   id,
-  //   login,
-  //   node_id,
-  //   avatar_url,
-  //   html_url,
-  //   followers_url,
-  //   following_url
-  // } = user
-
   const [followers, setFollowers] = useState([])
   const [following, setFollowing] = useState([])
-
-  // useEffect(() => {
-  //   Axios.get(`https://api.github.com/users/${login}`)
-  //     .then((res) => {
-  //       setFollowers(res.data)
-  //     }).catch(console.log)
-
-  // }, [followers_url, login])
 
   return (
     <div className="user-container">
